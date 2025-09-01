@@ -19,7 +19,9 @@ ML_framework_1/
 │   └── 02_SVM_Regression.ipynb              # SVM for regression problems
 │
 ├── 🔧 ML_Pipelines/
-│   └── [Future ML pipeline notebooks]
+│   ├── 01_ML_Pipeline_Fundamentals.ipynb    # Basic pipeline concepts
+│   ├── 02_ML_Pipeline_Advanced.ipynb        # Advanced pipeline techniques  
+│   └── 03_ML_Pipeline_Production.ipynb      # Production-ready pipelines
 │
 └── 📖 ML_THEORY_GUIDE.md                    # Theoretical foundations
 ```
