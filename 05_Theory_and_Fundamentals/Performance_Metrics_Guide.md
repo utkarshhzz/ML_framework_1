@@ -593,4 +593,81 @@ Remember: The best model is not always the one with the highest metric score, bu
 
 ---
 
-*This guide provides the foundation for proper model evaluation. Use it alongside the practical implementations in our framework notebooks.*
+## 📚 Implementation Examples in Our Framework
+
+### 🔧 ML Pipeline Notebooks
+The following notebooks in our framework demonstrate practical metric implementation:
+
+#### **Pipeline Fundamentals** (`04_ML_Pipelines/01_Pipeline_Fundamentals/`)
+- **`03_Ensemble_Pipelines.ipynb`** ⭐ **[ENHANCED]**
+  - Complete preprocessing pipeline with ColumnTransformer
+  - Model evaluation using accuracy_score
+  - Comparison of SVM vs Decision Tree performance
+  - Practical demonstration of train-test evaluation workflow
+  - **Metrics Used**: Accuracy, classification performance comparison
+
+#### **Ensemble Methods** (`03_Ensemble_Methods/`)
+- **Bagging Methods** (`01_Bagging_Methods/`)
+  - Random Forest implementations with performance metrics
+  - Bootstrap aggregation evaluation
+- **Voting Classifiers** (`03_Voting_Classifiers/`)
+  - Hard and soft voting ensemble evaluation
+  - Comparison metrics across multiple algorithms
+
+#### **Support Vector Machines** (`01_Support_Vector_Machines/`)
+- **SVM Applications** (`03_SVM_Applications/`)
+  - Regression metrics (MSE, R², MAE)
+  - Classification performance evaluation
+
+### 🎯 Metric Implementation Patterns
+
+**Pattern 1: Basic Model Evaluation**
+```python
+from sklearn.metrics import accuracy_score
+evaluation_results = model_train_eval(X_train_transformed, y_train, 
+                                    X_test_transformed, y_test, models)
+```
+
+**Pattern 2: Comprehensive Evaluation Function**
+```python
+def model_train_eval(X_train, y_train, X_test, y_test, models):
+    evaluation = {}
+    for model_name, model in models.items():
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        model_score = accuracy_score(y_test, y_pred)
+        evaluation[model_name] = model_score
+    return evaluation
+```
+
+### 🚀 Next Steps for Advanced Metrics
+Consider enhancing notebooks with:
+- **Classification Reports**: Precision, Recall, F1-score per class
+- **ROC Curves**: True Positive Rate vs False Positive Rate
+- **Confusion Matrices**: Detailed error analysis
+- **Cross-Validation**: More robust performance estimation
+
+---
+
+## 🔗 Related Resources
+
+### 📖 Framework Guides
+- **`ML_Mathematics_Guide.md`**: Mathematical foundations of metrics
+- **`Algorithm_Comparison_Guide.md`**: When to use which algorithm
+- **`README.md`**: Complete framework overview
+
+### 🛠️ Utility Scripts
+- **`06_Utilities_and_Tools/model_evaluation.py`**: Reusable evaluation functions
+- **`06_Utilities_and_Tools/visualization_tools.py`**: Metric visualization tools
+
+### 📊 Practical Examples
+Explore our enhanced notebooks for real-world metric applications:
+1. Start with **`03_Ensemble_Pipelines.ipynb`** for comprehensive pipeline evaluation
+2. Progress through ensemble methods for advanced metric comparisons
+3. Use SVM notebooks for regression metrics understanding
+
+---
+
+*This guide provides the foundation for proper model evaluation. Use it alongside the practical implementations in our framework notebooks for hands-on learning and application.*
+
+**Happy Machine Learning! 🚀📊🎯**

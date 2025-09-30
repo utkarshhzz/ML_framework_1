@@ -5,49 +5,76 @@
 
 This repository is a complete educational framework covering fundamental to advanced machine learning concepts with detailed explanations, practical implementations, and comprehensive code documentation. Each notebook includes step-by-step explanations of how the code works, making it perfect for learning and teaching.
 
-## 🏗️ Project Structure
+**🎯 Perfect for:**
+- Students learning machine learning fundamentals
+- Practitioners seeking comprehensive implementations
+- Educators looking for well-documented examples
+- Data scientists building reference materials
+
+## 🏗️ Complete Project Structure
 
 ```
-ML_Framework_Collection/
+ML_Framework_1/
 │
-├── � 01_Support_Vector_Machines/
+├── 🎯 01_Support_Vector_Machines/
 │   ├── 01_SVM_Fundamentals/
+│   │   ├── 01_SVM_Basic_Classification.ipynb
 │   │   └── SVM_Basic_Classification.ipynb
 │   ├── 02_Advanced_SVM/
+│   │   ├── 03_SVM_Kernel_Trick_Explained.ipynb
 │   │   └── SVM_Kernel_Trick_Complete.ipynb
 │   └── 03_SVM_Applications/
+│       ├── 02_SVM_Regression.ipynb
 │       └── SVM_Regression_Implementation.ipynb
 │
-├── � 02_Naive_Bayes_Methods/
-│   ├── 01_Gaussian_Naive_Bayes/
-│   │   └── Gaussian_NB_Implementation.ipynb
-│   └── 02_Advanced_Naive_Bayes/
-│       └── Multinomial_Bernoulli_NB.ipynb
+├── 📊 02_Naive_Bayes_Methods/
+│   └── 01_Gaussian_Naive_Bayes/
+│       ├── 01_Gaussian_Naive_Bayes_Implementation.ipynb
+│       ├── Advanced_Gaussian_NB.ipynb
+│       ├── Gaussian_NB_Implementation.ipynb
+│       └── implementation.ipynb
 │
 ├── 🌳 03_Ensemble_Methods/
 │   ├── 01_Bagging_Methods/
+│   │   ├── baggins_01.ipynb
+│   │   ├── baggining_regressor_02.ipynb
 │   │   └── Random_Forest_Bagging.ipynb
 │   ├── 02_Boosting_Methods/
-│   │   └── AdaBoost_XGBoost_Implementation.ipynb
+│   │   └── [Future: AdaBoost & XGBoost implementations]
 │   └── 03_Voting_Classifiers/
+│       ├── 01_Voting_Classifier_Fundamentals.ipynb
 │       └── Voting_Ensemble_Complete.ipynb
 │
 ├── 🔧 04_ML_Pipelines/
 │   ├── 01_Pipeline_Fundamentals/
+│   │   ├── 01_ML_Pipeline_Fundamentals.ipynb
+│   │   ├── 03_Ensemble_Pipelines.ipynb ⭐ (Enhanced)
 │   │   └── Basic_ML_Pipeline.ipynb
 │   ├── 02_Advanced_Pipelines/
+│   │   ├── 02_ML_Pipeline_Advanced.ipynb
 │   │   └── Feature_Engineering_Pipeline.ipynb
 │   └── 03_Production_Pipelines/
+│       ├── 03_ML_Pipeline_Production.ipynb
 │       └── Scalable_ML_Pipeline.ipynb
 │
-├── � 05_Theory_and_Fundamentals/
+├── 📚 05_Theory_and_Fundamentals/
 │   ├── ML_Mathematics_Guide.md
 │   ├── Algorithm_Comparison_Guide.md
-│   └── Performance_Metrics_Guide.md
+│   └── Performance_Metrics_Guide.md ⭐ (Comprehensive)
 │
 ├── 🛠️ 06_Utilities_and_Tools/
 │   ├── data_preprocessing.py
-│   ├── visualization_tools.py
+│   ├── model_evaluation.py
+│   └── visualization_tools.py
+│
+├── 📦 datasets/
+│   ├── README_datasets.md
+│   └── sample_datasets/
+│
+├── 📋 Configuration Files
+│   ├── requirements.txt
+│   ├── .gitignore
+│   └── ML_THEORY_GUIDE.md
 │   └── model_evaluation.py
 │
 ├── � datasets/
