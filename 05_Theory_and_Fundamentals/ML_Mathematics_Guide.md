@@ -7,7 +7,135 @@ This guide provides comprehensive mathematical explanations for all algorithms a
 
 ---
 
-## 📊 1. Support Vector Machines (SVM)
+## 📊 1. AdaBoost (Adaptive Boosting)
+
+### 🧮 Mathematical Foundation
+
+#### AdaBoost Algorithm
+AdaBoost combines multiple weak learners sequentially, where each learner focuses on previously misclassified examples.
+
+**Core Algorithm Steps:**
+
+1. **Initialize sample weights:**
+```
+w₁(i) = 1/N  for i = 1, ..., N
+```
+
+2. **For each boosting round t = 1, ..., T:**
+
+   a) **Train weak learner hₜ with weighted samples**
+   
+   b) **Calculate weighted error:**
+   ```
+   εₜ = ∑ᵢ w₁(i) · I(hₜ(xᵢ) ≠ yᵢ)
+   ```
+   
+   c) **Calculate classifier weight:**
+   ```
+   αₛ = (1/2) · ln((1 - εₜ)/εₜ)
+   ```
+   
+   d) **Update sample weights:**
+   ```
+   wₜ₊₁(i) = wₜ(i) · exp(-αₛ · yᵢ · hₜ(xᵢ)) / Zₜ
+   ```
+   where Zₜ is normalization factor
+
+3. **Final classifier:**
+```
+H(x) = sign(∑ₜ₌₁ᵀ αₜ · hₜ(x))
+```
+
+#### Key Mathematical Insights:
+
+**Weight Update Mechanism:**
+- **Correctly classified**: wₜ₊₁(i) = wₜ(i) · exp(-αₜ) (weight decreases)
+- **Misclassified**: wₜ₊₁(i) = wₜ(i) · exp(αₜ) (weight increases)
+- **Effect**: Forces next classifier to focus on difficult examples
+
+**Classifier Weight (αₜ):**
+- **Low error (εₜ → 0)**: αₜ → ∞ (high influence)
+- **High error (εₜ → 0.5)**: αₜ → 0 (low influence)
+- **Random guessing (εₜ = 0.5)**: αₜ = 0 (no contribution)
+
+### 🎯 Key Parameters Explained
+
+#### n_estimators (Number of Weak Learners)
+```
+Mathematical Impact: H(x) = sign(∑ₜ₌₁ⁿ_ᵉˢᵗⁱᵐᵃᵗᵒʳˢ αₜ · hₜ(x))
+```
+- **Small values (10-50)**: Fast training, potential underfitting
+- **Large values (100-500)**: Better performance, overfitting risk
+- **Trade-off**: Bias vs. Variance, Training time vs. Accuracy
+
+#### learning_rate (Shrinkage Parameter)
+```
+Modified classifier weight: α'ₜ = learning_rate × αₜ
+Final prediction: H(x) = sign(∑ₜ₌₁ᵀ α'ₜ · hₜ(x))
+```
+- **High rates (1.0-2.0)**: Aggressive learning, fast convergence
+- **Low rates (0.1-0.5)**: Conservative learning, better generalization
+- **Mathematical effect**: Scales the contribution of each weak learner
+
+#### algorithm Parameter
+**SAMME (Stagewise Additive Modeling using Multi-class Exponential loss):**
+```
+Uses discrete class predictions: hₜ(x) ∈ {-1, +1}
+Weight update: standard AdaBoost formula
+```
+
+**SAMME.R (Real SAMME):**
+```
+Uses class probabilities: pₜ(x) ∈ [0, 1]
+Faster convergence through probability estimates
+Better performance in most cases
+```
+
+### 🔍 Loss Function Analysis
+
+#### Exponential Loss (Classification)
+```
+L(y, f(x)) = exp(-y · f(x))
+```
+- **Correct prediction (y·f(x) > 0)**: Loss < 1
+- **Incorrect prediction (y·f(x) < 0)**: Loss > 1
+- **Property**: Exponentially penalizes misclassifications
+
+#### Regression Loss Functions
+**Linear Loss:**
+```
+L(y, f(x)) = |y - f(x)|
+```
+
+**Square Loss:**
+```
+L(y, f(x)) = (y - f(x))²
+```
+
+**Exponential Loss:**
+```
+L(y, f(x)) = exp(|y - f(x)|)
+```
+
+### 🎓 Theoretical Properties
+
+#### Generalization Bound
+```
+P(error) ≤ ∏ₜ₌₁ᵀ 2√(εₜ(1 - εₜ))
+```
+- Shows exponential decrease in training error
+- Explains AdaBoost's resistance to overfitting
+- Connects weak learning to strong learning
+
+#### Margin Theory
+```
+Margin(x) = (y · ∑ₜ αₜhₜ(x)) / ∑ₜ αₜ
+```
+- AdaBoost tends to maximize margins
+- Larger margins → better generalization
+- Explains continued improvement after zero training error
+
+## 📊 2. Support Vector Machines (SVM)
 
 ### 🧮 Mathematical Foundation
 
