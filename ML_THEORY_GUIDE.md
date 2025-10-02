@@ -270,7 +270,83 @@ Weight Update: wₜ₊₁(i) = wₜ(i) · exp(-αₜ · yᵢ · hₜ(xᵢ))
 - **Interpretability**: When feature importance is needed
 - **Moderate Dataset Size**: Efficient for small to medium datasets
 
-### 4.4 Out-of-Bag (OOB) Scoring
+### 4.4 Gradient Boosting Theory
+
+#### Concept
+A sequential ensemble method that builds models iteratively, where each new model is trained to correct the errors made by the combination of all previous models.
+
+#### Key Principles
+- **Sequential Learning**: Models built one after another
+- **Gradient Descent in Function Space**: Optimizes loss function using functional gradients
+- **Residual Learning**: Each model learns from pseudo-residuals of the ensemble
+- **Additive Modeling**: Final prediction is sum of all weak learner predictions
+
+#### Algorithm Overview
+1. **Initialize**: Start with constant prediction (mean for regression, log-odds for classification)
+2. **For each iteration**:
+   - Calculate negative gradient (pseudo-residuals) of loss function
+   - Train weak learner to predict pseudo-residuals
+   - Find optimal step size using line search
+   - Add scaled weak learner to ensemble
+3. **Combine**: Final model is weighted sum of all weak learners
+
+#### Mathematical Foundation
+```
+Final Model: F(x) = F₀(x) + ∑ₘ νγₘhₘ(x)
+Pseudo-residuals: rᵢₘ = -∂L(yᵢ, F(xᵢ))/∂F(xᵢ)
+Step size: γₘ = argmin_γ ∑ᵢ L(yᵢ, F_{m-1}(xᵢ) + γhₘ(xᵢ))
+```
+
+#### Key Parameters Explained
+
+**n_estimators (Number of Boosting Stages)**
+- **Small values (50-100)**: Fast training, potential underfitting
+- **Large values (200-500)**: Better performance, overfitting risk
+- **Trade-off**: More stages reduce bias but may increase variance
+
+**learning_rate (Shrinkage Parameter)**
+- **High rates (0.1-0.3)**: Faster convergence, higher overfitting risk
+- **Low rates (0.01-0.05)**: Slower convergence, better generalization
+- **Mathematical effect**: Scales contribution of each weak learner
+
+**max_depth (Tree Complexity)**
+- **Shallow trees (3-4)**: Low variance, may underfit
+- **Deep trees (6-8)**: High variance, captures interactions
+- **Rule of thumb**: Usually 3-6 for gradient boosting
+
+**subsample (Stochastic Gradient Boosting)**
+- **< 1.0**: Introduces randomness, reduces overfitting
+- **0.5-0.8**: Common range for stochastic gradient boosting
+- **1.0**: Uses all samples (deterministic)
+
+**Loss Functions (Regression)**
+- **squared_error**: Standard L2 loss, sensitive to outliers
+- **absolute_error**: L1 loss, robust to outliers
+- **huber**: Combination of L1 and L2, balanced approach
+
+#### Advantages
+- **High Performance**: Often achieves state-of-the-art results
+- **Flexibility**: Handles various loss functions and problem types
+- **Feature Importance**: Provides interpretable feature rankings
+- **Handles Mixed Data**: Works with numerical and categorical features
+
+#### Disadvantages
+- **Computational Cost**: Sequential training, cannot parallelize easily
+- **Hyperparameter Sensitivity**: Requires careful tuning
+- **Overfitting Risk**: Can overfit with too many estimators or high learning rate
+
+#### When to Use Gradient Boosting
+- **High Accuracy Needed**: When performance is critical
+- **Complex Relationships**: Captures non-linear patterns well
+- **Mixed Data Types**: Handles heterogeneous features
+- **Feature Importance**: When interpretability is important
+
+#### Comparison with Other Methods
+- **vs AdaBoost**: More flexible loss functions, generally better performance
+- **vs Random Forest**: Often higher accuracy but slower training
+- **vs XGBoost**: Similar concept but XGBoost has more optimizations
+
+### 4.5 Out-of-Bag (OOB) Scoring
 
 #### Theory
 - **Bootstrap Sampling**: Each tree uses ~63% of training data

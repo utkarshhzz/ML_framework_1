@@ -135,7 +135,178 @@ Margin(x) = (y · ∑ₜ αₜhₜ(x)) / ∑ₜ αₜ
 - Larger margins → better generalization
 - Explains continued improvement after zero training error
 
-## 📊 2. Support Vector Machines (SVM)
+## 📊 2. Gradient Boosting
+
+### 🧮 Mathematical Foundation
+
+#### Gradient Boosting Algorithm
+Gradient Boosting builds an additive model by sequentially adding weak learners that minimize a loss function using gradient descent in function space.
+
+**Core Algorithm:**
+
+1. **Initialize model with constant:**
+```
+F₀(x) = argmin_γ ∑ᵢ L(yᵢ, γ)
+```
+
+2. **For each boosting iteration m = 1, ..., M:**
+
+   a) **Compute negative gradient (pseudo-residuals):**
+   ```
+   rᵢₘ = -[∂L(yᵢ, F(xᵢ))/∂F(xᵢ)]_{F=F_{m-1}}
+   ```
+   
+   b) **Fit weak learner to pseudo-residuals:**
+   ```
+   hₘ(x) = argmin_h ∑ᵢ (rᵢₘ - h(xᵢ))²
+   ```
+   
+   c) **Find optimal step size:**
+   ```
+   γₘ = argmin_γ ∑ᵢ L(yᵢ, F_{m-1}(xᵢ) + γhₘ(xᵢ))
+   ```
+   
+   d) **Update model:**
+   ```
+   Fₘ(x) = F_{m-1}(x) + γₘhₘ(x)
+   ```
+
+3. **Final model:**
+```
+F(x) = F₀(x) + ∑ₘ₌₁ᴹ γₘhₘ(x)
+```
+
+#### Key Mathematical Insights:
+
+**Functional Gradient Descent:**
+- **Function space optimization**: Unlike parameter space, optimizes entire function
+- **Steepest descent direction**: Negative gradient points to fastest loss decrease
+- **Sequential correction**: Each model corrects errors of previous ensemble
+
+**Loss Function Gradients:**
+
+**Squared Loss (Regression):**
+```
+L(y, F(x)) = (y - F(x))²/2
+∂L/∂F = -(y - F(x)) = -residual
+```
+
+**Deviance Loss (Classification):**
+```
+L(y, F(x)) = log(1 + exp(-2yF(x)))
+∂L/∂F = -2y/(1 + exp(2yF(x)))
+```
+
+**Huber Loss (Robust Regression):**
+```
+L(y, F(x)) = {
+  (y - F(x))²/2           if |y - F(x)| ≤ δ
+  δ|y - F(x)| - δ²/2      otherwise
+}
+```
+
+### 🎯 Key Parameters Mathematical Analysis
+
+#### learning_rate (Shrinkage Parameter)
+```
+Fₘ(x) = F_{m-1}(x) + ν · γₘhₘ(x)  where ν = learning_rate
+```
+- **Mathematical effect**: Scales step size in function space
+- **Bias-variance trade-off**: Lower ν reduces variance, increases bias
+- **Regularization**: Prevents overfitting through smaller updates
+
+#### n_estimators (Number of Boosting Stages)
+```
+Final model: F(x) = F₀(x) + ∑ₘ₌₁ⁿ_ᵉˢᵗⁱᵐᵃᵗᵒʳˢ νγₘhₘ(x)
+```
+- **Capacity control**: More stages increase model complexity
+- **Early stopping**: Optimal number prevents overfitting
+- **Training error**: Monotonically decreases with more stages
+
+#### subsample (Stochastic Gradient Boosting)
+```
+Each hₘ trained on random subset of size: subsample × N
+```
+- **Variance reduction**: Random sampling reduces overfitting
+- **Computational efficiency**: Faster training on smaller subsets
+- **Regularization effect**: Introduces beneficial noise
+
+#### max_depth (Tree Complexity)
+```
+Interaction level ≈ max_depth
+Number of regions ≤ 2^max_depth
+```
+- **Feature interactions**: Deeper trees capture higher-order interactions
+- **Model complexity**: Exponential growth in number of leaf nodes
+- **Bias-variance**: Deeper trees reduce bias, increase variance
+
+### 🔍 Loss Functions Deep Analysis
+
+#### Classification Losses
+**Deviance (Logistic Loss):**
+```
+L(y, F(x)) = log(1 + exp(-yF(x)))
+```
+- **Properties**: Smooth, differentiable, convex
+- **Probabilistic**: Connects to logistic regression
+- **Robust**: Less sensitive to outliers than exponential loss
+
+**Exponential Loss:**
+```
+L(y, F(x)) = exp(-yF(x))
+```
+- **Connection**: Equivalent to AdaBoost algorithm
+- **Sensitivity**: Very sensitive to outliers
+- **Convergence**: Fast convergence properties
+
+#### Regression Losses
+**Squared Error:**
+```
+L(y, F(x)) = (y - F(x))²/2
+```
+- **Gradient**: -(y - F(x)) = negative residual
+- **Properties**: Smooth, easy optimization
+- **Outlier sensitivity**: High sensitivity to outliers
+
+**Absolute Error (LAD):**
+```
+L(y, F(x)) = |y - F(x)|
+```
+- **Robustness**: Robust to outliers
+- **Median regression**: Estimates conditional median
+- **Non-smooth**: Requires special handling at zero
+
+**Huber Loss:**
+```
+L(y, F(x)) = {
+  (y - F(x))²/2           if |y - F(x)| ≤ δ
+  δ|y - F(x)| - δ²/2      otherwise
+}
+```
+- **Compromise**: Combines squared and absolute loss benefits
+- **Parameter δ**: Controls transition point
+- **Robustness**: Less sensitive to outliers than squared loss
+
+### 🎓 Theoretical Properties
+
+#### Convergence Guarantees
+For appropriate learning rates and sufficient trees:
+```
+lim_{M→∞} F_M(x) = F*(x) = argmin_F E[L(y, F(x))]
+```
+
+#### Generalization Bound
+```
+E[L(y, F_M(x))] ≤ E[L(y, F*(x))] + O(1/√N) + complexity_penalty
+```
+
+#### Feature Importance
+```
+Importance_j = ∑_{m=1}^M ∑_{internal_nodes} I²_m(v) · I(v splits on feature j)
+```
+where I²_m(v) is squared improvement from split at node v.
+
+## 📊 3. Support Vector Machines (SVM)
 
 ### 🧮 Mathematical Foundation
 
