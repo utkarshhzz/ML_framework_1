@@ -522,4 +522,129 @@ After working through this implementation, you will understand:
 
 ---
 
+## 5. Instance-Based Learning: K-Nearest Neighbors (KNN)
+
+### 5.1 KNN Fundamentals
+
+#### Core Concept
+K-Nearest Neighbors is a **lazy learning** algorithm that makes predictions based on the 'k' closest training examples in the feature space.
+
+#### Key Characteristics
+- **Non-parametric**: No assumptions about data distribution
+- **Instance-based**: Stores all training data
+- **Lazy learning**: No training phase, computation at prediction time
+- **Versatile**: Works for both classification and regression
+
+### 5.2 KNN Algorithm Steps
+
+#### Classification Process
+1. **Calculate distances** from query point to all training points
+2. **Select k nearest neighbors** based on distance metric
+3. **Vote**: Assign class based on majority vote (uniform) or weighted vote (distance)
+
+#### Regression Process
+1. **Find k nearest neighbors** using distance metric
+2. **Average**: Compute mean (uniform) or weighted average (distance) of target values
+
+### 5.3 Distance Metrics Theory
+
+#### Minkowski Distance Family
+- **Manhattan (L1)**: `d = Σ|xi - yi|` - Less sensitive to outliers
+- **Euclidean (L2)**: `d = √(Σ(xi - yi)²)` - Most common, geometric distance
+- **Chebyshev (L∞)**: `d = max|xi - yi|` - Maximum difference
+
+#### Distance Metric Selection
+- **Manhattan**: Better for high-dimensional sparse data
+- **Euclidean**: Standard choice for continuous features
+- **Feature scaling critical**: All distance metrics sensitive to scale
+
+### 5.4 Hyperparameter Optimization
+
+#### Critical Parameters
+
+**n_neighbors (k-value)**
+- **Small k (1-5)**: Low bias, high variance, captures local patterns
+- **Large k (>15)**: High bias, low variance, smoother boundaries
+- **Selection**: Use cross-validation, rule of thumb k ≈ √n
+
+**weights**
+- **uniform**: All neighbors contribute equally
+- **distance**: Closer neighbors have higher influence
+- **Custom**: Define your own weighting function
+
+**algorithm**
+- **auto**: Automatically selects best algorithm
+- **ball_tree**: Good for high dimensions, any metric
+- **kd_tree**: Efficient for low dimensions, Euclidean/Manhattan only
+- **brute**: Brute force, always accurate but slower
+
+### 5.5 Advantages and Limitations
+
+#### Advantages
+- ✅ **Simple to understand and implement**
+- ✅ **No assumptions about data distribution**
+- ✅ **Works well with small datasets**
+- ✅ **Naturally handles multi-class problems**
+- ✅ **Can capture complex decision boundaries**
+
+#### Limitations
+- ❌ **Computationally expensive at prediction time**
+- ❌ **Sensitive to irrelevant features**
+- ❌ **Requires feature scaling**
+- ❌ **Suffers from curse of dimensionality**
+- ❌ **Storage intensive (must keep all training data)**
+
+### 5.6 Curse of Dimensionality
+
+#### The Problem
+In high-dimensional spaces:
+- All points become approximately equidistant
+- Nearest neighbors lose meaning
+- Performance degrades significantly
+
+#### Solutions
+- **Feature selection**: Remove irrelevant features
+- **Dimensionality reduction**: PCA, LDA, t-SNE
+- **Distance metric learning**: Learn optimal distance function
+- **Local dimensionality reduction**: Manifold learning
+
+### 5.7 When to Use KNN
+
+#### Best Use Cases
+- **Small to medium datasets** (< 100k samples)
+- **Low to medium dimensionality** (< 20 features)
+- **Non-linear decision boundaries**
+- **Local patterns matter more than global**
+- **Baseline model for comparison**
+
+#### Not Recommended When
+- **Large datasets** (memory and speed issues)
+- **High dimensionality** without feature selection
+- **Irrelevant features present**
+- **Real-time predictions required**
+
+---
+
+# 📖 NOTEBOOK 4: KNN CLASSIFICATION COMPLETE
+
+## Core Concepts You'll Master:
+1. **Instance-Based Learning** - Neighborhood-based predictions
+2. **Distance Metrics** - Minkowski family and selection
+3. **Parameter Optimization** - k-value, weights, algorithms
+4. **Multi-Dataset Analysis** - Performance across scenarios
+5. **Curse of Dimensionality** - High-dimensional challenges
+
+---
+
+# 📖 NOTEBOOK 5: KNN REGRESSION COMPLETE
+
+## Core Concepts You'll Master:
+1. **Regression with KNN** - Continuous target prediction
+2. **Distance Weighting** - Inverse distance influence
+3. **Bias-Variance Trade-off** - k-value impact analysis
+4. **Computational Complexity** - Algorithm selection strategies
+5. **Real-World Applications** - Housing price prediction
+
+---
+
 *This guide will be your complete reference for understanding every aspect of these machine learning implementations.*

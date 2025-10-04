@@ -699,7 +699,98 @@ P(class=c in fold f) ≈ P(class=c in full dataset)
 
 ---
 
-## 🎚️ 6. Hyperparameter Tuning Mathematics
+## � 6. K-Nearest Neighbors (KNN)
+
+### 🧮 Mathematical Foundation
+
+#### Distance Metrics
+
+**Minkowski Distance (General Form):**
+```
+d(x, y) = (∑ᵢ₌₁ⁿ |xᵢ - yᵢ|ᵖ)^(1/p)
+```
+
+**Special Cases:**
+- **Manhattan Distance (p=1):** `d(x,y) = ∑|xᵢ - yᵢ|`
+- **Euclidean Distance (p=2):** `d(x,y) = √(∑(xᵢ - yᵢ)²)`
+- **Chebyshev Distance (p=∞):** `d(x,y) = max|xᵢ - yᵢ|`
+
+#### KNN Classification
+
+**Uniform Weighting:**
+```
+ŷ = argmax_c ∑ᵢ∈Nₖ(x) I(yᵢ = c)
+```
+where Nₖ(x) are the k nearest neighbors of x
+
+**Distance Weighting:**
+```
+ŷ = argmax_c ∑ᵢ∈Nₖ(x) wᵢ · I(yᵢ = c)
+```
+where `wᵢ = 1/(d(x, xᵢ) + ε)` and ε prevents division by zero
+
+#### KNN Regression
+
+**Uniform Weighting:**
+```
+ŷ = (1/k) ∑ᵢ∈Nₖ(x) yᵢ
+```
+
+**Distance Weighting:**
+```
+ŷ = (∑ᵢ∈Nₖ(x) wᵢ · yᵢ) / (∑ᵢ∈Nₖ(x) wᵢ)
+```
+
+#### Key Mathematical Properties:
+
+**1. Non-parametric Nature:**
+- No explicit model parameters to learn
+- Decision boundary complexity increases with data
+
+**2. Lazy Learning:**
+- No training phase: O(1) training time
+- All computation at prediction: O(N) query time
+
+**3. Voronoi Tessellation:**
+- KNN creates implicit Voronoi regions
+- Decision boundaries are piecewise linear
+
+**4. Curse of Dimensionality:**
+- In high dimensions: `||x-y||₂ → constant` for all pairs
+- Distance concentration: `max d / min d → 1` as d → ∞
+
+#### Computational Complexity
+
+**Brute Force Search:**
+- Time: O(N·d) per query
+- Space: O(N·d) for storage
+
+**Tree-based Methods (KD-tree, Ball-tree):**
+- Construction: O(N log N)
+- Query: O(log N) in low dimensions, degrades to O(N) in high dimensions
+- Ball-tree performs better in high dimensions
+
+#### Bias-Variance Trade-off
+
+**Small k (k=1,3,5):**
+- Low bias: captures local patterns
+- High variance: sensitive to noise
+- Overfitting tendency
+
+**Large k (k→N):**
+- High bias: overly smooth predictions
+- Low variance: stable predictions
+- Underfitting tendency
+
+**Optimal k Selection:**
+```
+k* = argmin_k E[(f(x) - f̂ₖ(x))²]
+```
+Often approximated by cross-validation
+
+---
+
+## �🎚️ 7. Hyperparameter Tuning Mathematics
 
 ### 🎯 Grid Search
 
